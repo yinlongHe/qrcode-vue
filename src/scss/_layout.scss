@@ -1,0 +1,7 @@
+@mixin coverBg($size: cover) {
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  -webkit-background-size: $size;
+  background-size: $size;
+  height: 100%;
+}

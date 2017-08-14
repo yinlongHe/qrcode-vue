@@ -1,0 +1,50 @@
+@mixin transform($val: translate(0, 0)) {
+  -webkit-transform: $val;
+  -moz-transform: $val;
+  transform: $val;
+}
+
+@mixin transition($val: opacity .3s ease) {
+  -webkit-transition: $val;
+  -moz-transition: $val;
+  transition: $val;
+}
+
+@mixin ellipsis {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+@mixin icon($size: 12px, $iconName: '') {
+  width: $size;
+  height: $size;
+  display: inline-block;
+  vertical-align: middle;
+  background: transparent url('/src/images/icon_#{$iconName}.png') 50% 50% no-repeat;
+  -webkit-background-size: 98%;
+  background-size: 98%;
+}
+@mixin arrow($size: 10px, $direction: 'right', $right: 10px, $borderColor: #e5e5e5) {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: $right;
+  bottom: 0;
+  margin: auto;
+  border-left: 1px solid $borderColor;
+  border-top: 1px solid $borderColor;
+  width: $size;
+  height: $size;
+  @if $direction == 'right' {
+    @include transform(rotate(135deg));
+  } @else if $direction == 'left' {
+    @include transform(rotate(-45deg));
+  } @else if $direction == 'bottom' {
+    @include transform(rotate(-135deg));
+  } @else {
+    @include transform(rotate(45deg));
+  }
+}

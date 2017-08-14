@@ -1,0 +1,205 @@
+@import "./variable";
+// 隐藏滚动条
+::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: $bgColor;
+}
+
+body {
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  color: #333;
+  font: 14px/1.3 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STXihei, '\534E\6587\7EC6\9ED1', Roboto, Noto, arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  -webkit-tap-highlight-color: transparent;
+}
+
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+
+em {
+  font-style: normal;
+}
+
+ol, ul, dl, dd, h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+ul,ol {
+  list-style: none;
+}
+
+button, input, textarea {
+  -webkit-appearance: none;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0 none;
+  -webkit-tap-highlight-color: transparent;
+  resize: none;
+}
+
+input[disabled], textarea[disabled] {
+  background-color: #b2b2b2;
+  color: #fff;
+}
+button[disabled] {
+  opacity: 0.5;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+.wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-height: 100%;
+  width: 100%;
+  max-width: 640px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.disabled {
+  pointer-events: none;
+}
+.next-loading {
+  padding: 5px;
+  text-align: center;
+}
+.mask-opacity {
+  position: fixed;
+  left: 0;
+  top: -500px;
+  height: 10000px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .03);
+  z-index: 2;
+}
+.mask {
+  position: fixed;
+  left: 0;
+  top: -500px;
+  height: 10000px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 2;
+}
+.not-found {
+  text-align: center;
+  background: url(/dist/images/no_prizes.png) 50% 0 no-repeat;
+  -webkit-background-size: 70px;
+  background-size: 70px;
+  padding: 80px 20px 0;
+  margin-top: 25%;
+  font-size: 18px;
+}
+[v-cloak] {
+  display: none;
+}
+.btn{
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 3px;
+  font-size: 14px;
+  &.btn-red{
+    border: 1px solid #eb5169;
+    background-color: #eb5169;
+    color: #fff;
+  }
+  &.btn-white{
+    border: 1px solid #eb5169;
+    background-color: #fff;
+    color: #eb5169;
+  }
+  &.btn-disabled{
+    background-color: #e5e5e5;
+    color: #666;
+  }
+  &.btn-pale-red{
+    border: 1px solid #ff5151;
+    background-color: #ff5151;
+    color: #fff;
+  }
+}
+
+.form-info{
+  .info-box{
+    overflow: hidden;
+    &:last-child{
+      margin-bottom: 0;
+    }
+    .box-title{
+      width: 70px;
+      float: left;
+    }
+    @at-root.justify .box-title{
+      text-align:justify;
+      text-justify:distribute-all-lines;
+      text-align-last:justify;
+      -webkit-text-align:justify;
+      -webkit-text-justify:distribute-all-lines;
+      -webkit-text-align-last:justify;
+      height: 15px;
+      &:after {
+        content:"";
+        display: inline-block;
+        width:100%;
+        overflow:hidden;
+        height:0;
+      }
+    }
+    .box-text{
+      overflow: hidden;
+    }
+  }
+  .select-box{
+    padding-bottom: 20px;
+    overflow: hidden;
+    select{
+      outline: none;
+      float: left;
+      width: 30%;
+      margin-right: 5%;
+      height: 38px;
+      padding-left: 8px;
+      border: 1px solid #ec4d65;
+      background: inherit;
+      font-size: 12px;
+      color: #ec4d65;
+    }
+    select:last-child{
+      margin: 0;
+    }
+  }
+}

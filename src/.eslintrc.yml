@@ -1,0 +1,24 @@
+---
+  extends: airbnb-base
+  rules:
+    comma-dangle:
+      - error
+      - always-multiline
+    import/prefer-default-export: 0
+    import/no-named-as-default: 0
+    import/no-named-as-default-member: 0
+    func-names: 0
+    space-before-function-paren: 0
+    array-callback-return: 0
+    consistent-return: 0
+    no-new: 0
+    wrap-iife: 0
+    no-multi-spaces: 0
+  globals:
+    Vue: true
+    VueRouter: true
+    router: true
+    self: true
+    window: true
+    QR_CODE: true
+    qr: true
