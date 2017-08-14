@@ -227,6 +227,7 @@
           })  
        }
       
+      
        if( self.qrcode.is_input == '0'){
          const qr = self.qrcode;
          const url = `${awardAcceptPrize}${qr.openId}/${this.actwinid}/${this.pzid}/""/""/${qr.type}/${qr.uuid}/${qr.is_input}`;
