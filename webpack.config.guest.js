@@ -1,6 +1,6 @@
 // 将 CSS 打包成一个独立的文件
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-//测试
+
 module.exports = {
   // 项目入口文件
   entry: './src/guest.config.js',
