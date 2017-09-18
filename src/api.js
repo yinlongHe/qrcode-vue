@@ -113,14 +113,3 @@ export const confirmPrizeURL = `${url}/confirmWin/`;
  * return
  */
 export const getSource = `${url}/award/querySource/`;
-
-
-/**
- * 定位位置保存
- * @param openid 
- * @param uuid 
- * @param longitude
- * @param latitude  
- * return
- */
-export const savePostion = `${url}/postion/save/`;

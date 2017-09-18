@@ -31,7 +31,7 @@
   .wrapper.guest-home-wrapper(
     :style='bgImg'
   )
-    a.btn(@click='start')
+    a#drawStartBtn.btn(@click='start')
     a.btn-rule(
       v-if='introduction',
       @click='dialogToggle = true',
@@ -74,6 +74,8 @@
         this.dialogToggle = false;
       },
       start() {
+        document.getElementById("drawStartBtn").style.visibility="hidden";
+
         const url = `${drawPrize}${this.productId}/${this.activityId}/${this.uuid}/${this.type}/${this.openid}`;
         var copythis=this;
         var config={url:url};
@@ -102,6 +104,7 @@
               })
             } else {
               self.toast(json.msg);
+              document.getElementById("drawStartBtn").style.visibility="visible";
             }
           }.bind(copythis)
         })
@@ -118,6 +121,7 @@
     },
     mounted() {
       if(self.qrcode.isAutoDraw == 1){
+        console.log("==>启动自动抽奖，准备开始抽奖");
         this.start();
       }
     },

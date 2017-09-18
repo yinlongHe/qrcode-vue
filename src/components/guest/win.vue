@@ -146,7 +146,7 @@
           @click='getValidCode',
           v-text='codeText'
         )
-      button.submit 去领奖
+      button#drawBtn.submit 去领奖
     common-dialog(
       v-if='dialogToggle',
       @closeDialog='toggle',
@@ -208,6 +208,7 @@
       submit() {//去领奖提交
       var copythis   = this;
       var awardPrize = function(url){
+       document.getElementById("drawBtn").style.visibility="hidden";
       self.common.post(url, {
         callback: function(res) {
           if (res.code == 200) {
@@ -222,6 +223,7 @@
                 }
               } else {
                 self.toast(res.msg);
+                 document.getElementById("drawBtn").style.visibility="visible";
               }
             }.bind(copythis)
           })  

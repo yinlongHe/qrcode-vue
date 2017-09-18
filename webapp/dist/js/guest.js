@@ -341,22 +341,26 @@
 	  }, {
 	    key: 'getPostion',
 	    value: function getPostion(config, callback) {
-	      wx.getLocation({
-	        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-	        success: function (res) {
-	          var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-	          var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-	          var speed = res.speed; // 速度，以米/每秒计
-	          var accuracy = res.accuracy; // 位置精度
-	          callback(config.url + '/' + longitude + '/' + latitude);
-	        }.bind(this),
-	        cancel: function (res) {
-	          callback(config.url + '/0/0');
-	        }.bind(this),
-	        fail: function (res) {
-	          callback(config.url + '/-1/-1');
-	        }.bind(this)
+	      var _this3 = this;
 
+	      wx.ready(function () {
+	        wx.getLocation({
+	          type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+	          success: function (res) {
+	            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+	            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+	            var speed = res.speed; // 速度，以米/每秒计
+	            var accuracy = res.accuracy; // 位置精度
+	            callback(config.url + '/' + longitude + '/' + latitude);
+	          }.bind(_this3),
+	          cancel: function (res) {
+	            callback(config.url + '/0/0');
+	          }.bind(_this3),
+	          fail: function (res) {
+	            callback(config.url + '/-1/-1');
+	          }.bind(_this3)
+
+	        });
 	      });
 	    }
 	  }]);
@@ -689,7 +693,7 @@
 	//   .wrapper.guest-home-wrapper(
 	//     :style='bgImg'
 	//   )
-	//     a.btn(@click='start')
+	//     a#drawStartBtn.btn(@click='start')
 	//     a.btn-rule(
 	//       v-if='introduction',
 	//       @click='dialogToggle = true',
@@ -730,6 +734,8 @@
 	      this.dialogToggle = false;
 	    },
 	    start: function start() {
+	      document.getElementById("drawStartBtn").style.visibility = "hidden";
+
 	      var url = '' + _api.drawPrize + this.productId + '/' + this.activityId + '/' + this.uuid + '/' + this.type + '/' + this.openid;
 	      var copythis = this;
 	      var config = { url: url };
@@ -758,6 +764,7 @@
 	              });
 	            } else {
 	              self.toast(json.msg);
+	              document.getElementById("drawStartBtn").style.visibility = "visible";
 	            }
 	          }.bind(copythis)
 	        });
@@ -772,6 +779,7 @@
 	  },
 	  mounted: function mounted() {
 	    if (self.qrcode.isAutoDraw == 1) {
+	      console.log("==>启动自动抽奖，准备开始抽奖");
 	      this.start();
 	    }
 	  }
@@ -1037,21 +1045,11 @@
 	 */
 	var getSource = exports.getSource = url + '/award/querySource/';
 
-	/**
-	 * 定位位置保存
-	 * @param openid 
-	 * @param uuid 
-	 * @param longitude
-	 * @param latitude  
-	 * return
-	 */
-	var savePostion = exports.savePostion = url + '/postion/save/';
-
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div :style=\"bgImg\" class=\"wrapper guest-home-wrapper\"><a @click=\"start\" class=\"btn\"></a><a v-if=\"introduction\" @click=\"dialogToggle = true\" class=\"btn-rule\">活动规则</a><common-dialog v-if=\"dialogToggle\" @closeDialog=\"toggle\" :dialogToggle=\"dialogToggle\" :icon=\"true\"><div v-html=\"introduction\"></div></common-dialog></div>";
+	module.exports = "<div :style=\"bgImg\" class=\"wrapper guest-home-wrapper\"><a id=\"drawStartBtn\" @click=\"start\" class=\"btn\"></a><a v-if=\"introduction\" @click=\"dialogToggle = true\" class=\"btn-rule\">活动规则</a><common-dialog v-if=\"dialogToggle\" @closeDialog=\"toggle\" :dialogToggle=\"dialogToggle\" :icon=\"true\"><div v-html=\"introduction\"></div></common-dialog></div>";
 
 /***/ }),
 /* 18 */
@@ -1692,7 +1690,7 @@
 	//           @click='getValidCode',
 	//           v-text='codeText'
 	//         )
-	//       button.submit 去领奖
+	//       button#drawBtn.submit 去领奖
 	//     common-dialog(
 	//       v-if='dialogToggle',
 	//       @closeDialog='toggle',
@@ -1751,6 +1749,7 @@
 	      //去领奖提交
 	      var copythis = this;
 	      var awardPrize = function awardPrize(url) {
+	        document.getElementById("drawBtn").style.visibility = "hidden";
 	        self.common.post(url, {
 	          callback: function (res) {
 	            if (res.code == 200) {
@@ -1765,6 +1764,7 @@
 	              }
 	            } else {
 	              self.toast(res.msg);
+	              document.getElementById("drawBtn").style.visibility = "visible";
 	            }
 	          }.bind(copythis)
 	        });
@@ -1858,7 +1858,7 @@
 /* 29 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div :style=\"bgImg\" class=\"wrapper guest-win-wrapper\"><a v-if=\"is_history ==&quot;1&quot; \" @click=\"getSource()\" class=\"btn-query\">溯源查询</a><a v-if=\"introduction\" @click=\"ruleDialogToggle = true\" class=\"btn-rule\">活动规则</a><common-dialog v-if=\"ruleDialogToggle\" @closeDialog=\"ruleToggle\" :ruleDialogToggle=\"ruleDialogToggle\" :icon=\"true\"><div v-html=\"introduction\"></div></common-dialog><form @submit.prevent=\"submit\" class=\"form\"><article class=\"content\"><p v-if=\"qrCode.pztype == 1\" class=\"name\"><span>恭喜您! 本次获得</span><em v-text=\"qrCode.price\"></em><span>元微信红包</span></p><p v-else=\"v-else\" class=\"name\"><span>恭喜您获得</span><em v-text=\"qrCode.pzname\"></em></p><p class=\"follow\"><span>请关注微信公众号, 到</span><em>领奖中心</em><span>获取奖品。</span></p></article><input v-if=\"is_input == &quot;1&quot;\" v-model=\"mobile\" maxlength=\"11\" type=\"tel\" placeholder=\"请输入手机号\"/><p class=\"code\"><input v-if=\"is_input == &quot;1&quot;\" v-model=\"validcode\" maxlength=\"6\" placeholder=\"请输入短信验证码\"/><a v-if=\"is_input == &quot;1&quot;\" :class=\"{disabled: codeToggle}\" @click=\"getValidCode\" v-text=\"codeText\" class=\"btn-code\"></a></p><button class=\"submit\">去领奖</button></form><common-dialog v-if=\"dialogToggle\" @closeDialog=\"toggle\" :dialogToggle=\"dialogToggle\" :icon=\"false\"><img :src=\"imgUrl\"/><p>长按二维码识别，马上领奖</p></common-dialog></div>";
+	module.exports = "<div :style=\"bgImg\" class=\"wrapper guest-win-wrapper\"><a v-if=\"is_history ==&quot;1&quot; \" @click=\"getSource()\" class=\"btn-query\">溯源查询</a><a v-if=\"introduction\" @click=\"ruleDialogToggle = true\" class=\"btn-rule\">活动规则</a><common-dialog v-if=\"ruleDialogToggle\" @closeDialog=\"ruleToggle\" :ruleDialogToggle=\"ruleDialogToggle\" :icon=\"true\"><div v-html=\"introduction\"></div></common-dialog><form @submit.prevent=\"submit\" class=\"form\"><article class=\"content\"><p v-if=\"qrCode.pztype == 1\" class=\"name\"><span>恭喜您! 本次获得</span><em v-text=\"qrCode.price\"></em><span>元微信红包</span></p><p v-else=\"v-else\" class=\"name\"><span>恭喜您获得</span><em v-text=\"qrCode.pzname\"></em></p><p class=\"follow\"><span>请关注微信公众号, 到</span><em>领奖中心</em><span>获取奖品。</span></p></article><input v-if=\"is_input == &quot;1&quot;\" v-model=\"mobile\" maxlength=\"11\" type=\"tel\" placeholder=\"请输入手机号\"/><p class=\"code\"><input v-if=\"is_input == &quot;1&quot;\" v-model=\"validcode\" maxlength=\"6\" placeholder=\"请输入短信验证码\"/><a v-if=\"is_input == &quot;1&quot;\" :class=\"{disabled: codeToggle}\" @click=\"getValidCode\" v-text=\"codeText\" class=\"btn-code\"></a></p><button id=\"drawBtn\" class=\"submit\">去领奖</button></form><common-dialog v-if=\"dialogToggle\" @closeDialog=\"toggle\" :dialogToggle=\"dialogToggle\" :icon=\"false\"><img :src=\"imgUrl\"/><p>长按二维码识别，马上领奖</p></common-dialog></div>";
 
 /***/ }),
 /* 30 */
