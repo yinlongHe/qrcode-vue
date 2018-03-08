@@ -142,7 +142,7 @@
         .con(v-text='info.gradeName')
       li.item
         span.title 二维码号:
-        .con(v-text='info.id')
+        .con(v-text='info.qrcodeNum')
       li.item
         span.title 奖品名称:
         .con(v-text='info.prizeName')
